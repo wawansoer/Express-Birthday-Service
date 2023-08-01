@@ -16,6 +16,7 @@ app.use('/', router);
 
 /**
  * The main function is responsible for authenticating the connection to the database and creating the necessary tables.
+ * If the FORCE_MIGRATE environment variable is set to "True", it drops the existing tables and creates new ones.
  * 
  * @returns {Promise<void>} A promise that resolves when the function completes.
  */
@@ -25,29 +26,38 @@ async function main(): Promise<void> {
         await sequelize.authenticate();
         console.timeStamp("Connected to database");
 
-        // This creates the table in the database. Use force: true only during development to drop the existing table.
-        let migrate = false
+        // Check if FORCE_MIGRATE environment variable is set to "True"
+        let migrate = false;
         if (process.env.FORCE_MIGRATE === "True") {
-            migrate = true
+            migrate = true;
+            // Drop existing tables and create new ones
             await User.sync({ force: migrate });
             await Task.sync({ force: migrate });
-            console.info("Success create table (check on app.ts)");
+            console.info("Successfully created tables (check on app.ts)");
         }
     } catch (error) {
-        console.error('Error occurred:', error);
+        console.error('An error occurred:', error);
     }
 }
 
 main();
 
 
+/**
+ * Schedule a cron job to add a task for users who have their birthday at 9 AM on their local time.
+ * The cron job runs every 30 minutes.
+ */
 cron.schedule('*/30 * * * *', async () => {
-    console.log(new Date() + " : Run cron to get user bithday at 9 AM ")
+    console.timeStamp("Run Cron To Get a User Who has birthday 9AM on their localtime");
     await TaskService.addTask();
 });
 
+/**
+ * Function to run a cron job every 30 seconds to send birthday emails to users who have not yet received them.
+ * It retrieves a list of unsent tasks using the TaskService and sends emails to the users using the SendEmailService.
+ */
 cron.schedule('*/30 * * * * *', async () => {
-    console.log(new Date() + " : Run cron to sent email ")
+    console.timeStamp("Run Cron Sent Email To User");
     const data = await TaskService.getUnsentTasks();
 
     await SendEmailService(data)
