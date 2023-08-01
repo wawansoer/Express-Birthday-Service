@@ -2,6 +2,14 @@ import TaskService from './TaskService';
 import axios from 'axios';
 const API_URL = 'https://email-service.digitalenvision.com.au/send-email';
 
+
+/**
+ * This code snippet defines a function that sends emails using the Axios library and marks the corresponding task as sent using the TaskService module.
+ * 
+ * @param datas - An array of objects containing email data, including id, email, message, and sent status.
+ * @returns None
+ */
+
 async function SendEmailService(datas: any) {
 
     for (const data of datas) {

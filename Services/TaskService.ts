@@ -1,6 +1,12 @@
 import Task from '../Models/TaskModel'
 import UserService from './UserService';
+/**
+ * TaskService class provides functionalities for managing tasks related to sending birthday messages to users.
+ */
 class TaskServie {
+    /**
+     * Creates a new task for each user with a birthday at 9 AM and logs the task details.
+     */
     async addTask() {
         try {
             const Users = await UserService.getUsersWithBirthdayAt9AM()
@@ -14,11 +20,14 @@ class TaskServie {
                 console.log('New task created:', newTask.toJSON());
             }
         } catch (error) {
-            console.error('Failed to task save data');
+            console.error('Failed to save task data');
         }
-        return null
     }
 
+    /**
+     * Fetches all unsent tasks from the database.
+     * @returns {Task[]} - Array of unsent tasks
+     */
     async getUnsentTasks() {
         try {
             const unsentTasks = await Task.findAll({
@@ -34,6 +43,10 @@ class TaskServie {
         }
     }
 
+    /**
+     * Marks a task as sent by its ID.
+     * @param {number} taskId - ID of the task to mark as sent
+     */
     async markTaskAsSentById(taskId: number) {
         try {
             // Find the task by its ID
@@ -53,7 +66,6 @@ class TaskServie {
             console.error('Error updating task:', error);
         }
     }
-
 }
 
 export default new TaskServie();

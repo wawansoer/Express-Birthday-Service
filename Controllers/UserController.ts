@@ -1,9 +1,20 @@
+/**
+ * This code snippet defines a UserController that handles HTTP requests related to user management.
+ * It uses the UserService to perform CRUD operations on users.
+*/
+
 import { Request, Response } from 'express';
 import UserService from '../Services/UserService';
-import { body, validationResult } from 'express-validator';
 
 const UserController = {
 
+    /**
+     * Adds a new user.
+     * 
+     * @param req - The HTTP request containing user data.
+     * @param res - The HTTP response.
+     * @returns A JSON response with the created user data.
+    */
     async addUser(req: Request, res: Response): Promise<void> {
         try {
             const { email, first_name, last_name, birthday_date, timezone, location } = req.body;
@@ -29,6 +40,14 @@ const UserController = {
             });
         }
     },
+
+    /**
+     * Updates an existing user.
+     * 
+     * @param req - The HTTP request containing user data and the user ID.
+     * @param res - The HTTP response.
+     * @returns A JSON response with the updated user data.
+    */
     async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const userId = Number(req.params.id);
@@ -58,6 +77,13 @@ const UserController = {
         }
     },
 
+    /**
+     * Removes a user.
+     * 
+     * @param req - The HTTP request containing the user ID.
+     * @param res - The HTTP response.
+     * @returns A JSON response indicating the success of the operation.
+    */
     async removeUser(req: Request, res: Response): Promise<void> {
         try {
             const userId = Number(req.params.id);
