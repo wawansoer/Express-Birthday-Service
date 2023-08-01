@@ -1,6 +1,10 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-
+/** 
+* This code snippet creates a Sequelize instance for connecting to a PostgreSQL database.
+* It uses environment variables for configuration and allows for logging of database queries.
+* The code sets up a connection pool, sets the timezone to UTC + 0, and enables date string parsing and type casting 
+*/
 dotenv.config();
 let db_log = false
 if (process.env.DB_LOG === "True") {

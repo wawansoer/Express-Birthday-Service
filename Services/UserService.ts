@@ -3,7 +3,15 @@ import { Op } from 'sequelize';
 import User from '../Models/UserModel';
 import { error } from 'console';
 
+/**
+ * The UserService class provides methods for managing user data in a database.
+ */
 class UserService {
+    /**
+     * Adds a new user to the database.
+     * @param userInput - The user input data.
+     * @returns A promise that resolves to the created user.
+     */
     async addUser(userInput: {
         email: string;
         first_name: string;
@@ -15,6 +23,12 @@ class UserService {
         return User.create(userInput);
     }
 
+    /**
+     * Removes a user from the database by their ID.
+     * @param id - The ID of the user to remove.
+     * @returns A promise that resolves when the user is successfully removed.
+     * @throws An error if the user is not found.
+     */
     async removeUser(id: number): Promise<void> {
         const user = await User.findOne({ where: { id: id } });
 
@@ -24,6 +38,14 @@ class UserService {
 
         await User.destroy({ where: { id } });
     }
+
+    /**
+     * Updates a user's data in the database by their ID.
+     * @param userId - The ID of the user to update.
+     * @param updatedUserData - The updated user data.
+     * @returns A promise that resolves to the updated user, or null if the user is not found.
+     * @throws An error if there is an issue updating the user.
+     */
     async updateUser(userId: number, updatedUserData: {
         email?: string;
         first_name?: string;
@@ -33,24 +55,25 @@ class UserService {
         location?: string;
     }): Promise<User | null> {
         try {
-            // Find the user by ID
             const user = await User.findOne({ where: { id: userId } });
 
             if (!user) {
-                // User not found
                 return null;
             }
 
-            // Update the user's data with the provided fields
             await user.update(updatedUserData);
 
-            // Return the updated user
             return user;
         } catch (error) {
-            // Handle errors here if needed
             throw error;
         }
     }
+
+    /**
+     * Retrieves users from the database whose birthday is at 9 AM in their timezone.
+     * @returns A promise that resolves to an array of users.
+     * @throws An error if there is an issue executing the query.
+     */
     async getUsersWithBirthdayAt9AM() {
         try {
             const users = await User.findAll({
