@@ -3,6 +3,12 @@ import moment from 'moment-timezone';
 import { body, validationResult, ValidationChain } from 'express-validator';
 import User from '../Models/UserModel';
 
+/**
+ * Middleware function to validate the input data of an HTTP request.
+ * 
+ * @param validations An array of ValidationChain objects that define the validation rules for the input data.
+ * @returns An async middleware function that validates the input data and calls the next function if valid, or sends a 400 HTTP response with validation errors if invalid.
+ */
 export const validate = (validations: ValidationChain[]) => {
     return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         await Promise.all(validations.map(validation => validation.run(req)));

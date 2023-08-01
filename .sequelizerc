@@ -1,8 +1,8 @@
 import { resolve } from 'path';
 
 export default {
-    'config': resolve('src', 'config/sequelize-config.ts'),
-    'models-path': resolve('src', 'models'),
-    'seeders-path': resolve('src', 'seeders'),
-    'migrations-path': resolve('src', 'migrations'),
+    'config': resolve('./', 'Configs/SequelizeConfig.ts'),
+    'models-path': resolve('./', 'Models'),
+    'seeders-path': resolve('./', 'Seeders'),
+    'migrations-path': resolve('./', 'Migrations'),
 };

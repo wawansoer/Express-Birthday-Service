@@ -1,14 +1,45 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../Configs/SequelizeConfig';
+/**
+ * Represents a user in the database.
+ * 
+ * This class provides a blueprint for creating user objects and mapping them to database records.
+ */
 class User extends Model {
+    /**
+     * The unique identifier for the user.
+     */
     public id!: number;
-    public email!: string;
-    public first_name!: string;
-    public last_name!: string;
-    public birthday_date!: Date;
-    public timezone!: string;
-    public location!: string;
 
+    /**
+     * The email address of the user.
+     */
+    public email!: string;
+
+    /**
+     * The first name of the user.
+     */
+    public first_name!: string;
+
+    /**
+     * The last name of the user.
+     */
+    public last_name!: string;
+
+    /**
+     * The date of birth of the user.
+     */
+    public birthday_date!: Date;
+
+    /**
+     * The timezone of the user.
+     */
+    public timezone!: string;
+
+    /**
+     * The location of the user.
+     */
+    public location!: string;
 }
 
 User.init(
